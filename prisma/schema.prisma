@@ -1,0 +1,144 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Config {
+  id            Int   @id @default(autoincrement())
+  patientNumber Int
+  bedsNumber    Int
+  maxHours      Float
+}
+
+model Account {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+}
+
+model EmployeeType {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  Employee          Employee[]
+  ShiftEmployeeType ShiftEmployeeType[]
+}
+
+model Employee {
+  id                   Int                   @id @default(autoincrement())
+  name                 String
+  participation        Float
+  employeeType         EmployeeType?         @relation(fields: [employeeTypeId], references: [id])
+  employeeTypeId       Int?
+  enabled              Boolean               @default(true)
+  shiftEmployee        ShiftEmployee[]
+  absences             Absence[]
+  requirements         Requirement[]
+  requirementEmployees RequirementEmployee[]
+}
+
+model Shift {
+  id                Int                 @id @default(autoincrement())
+  start             DateTime
+  end               DateTime
+  breaktime         Float
+  enabled           Boolean             @default(true)
+  ShiftEmployee     ShiftEmployee[]
+  shiftEmployeeType ShiftEmployeeType[]
+  requirementShift  RequirementShift[]
+  firstShift        ShiftShift[]
+  secondShift       ShiftShift[]        @relation("shift_shift_2")
+}
+
+model ShiftShift {
+  id            Int   @id @default(autoincrement())
+  firstShift    Shift @relation(fields: [firstShiftId], references: [id])
+  firstShiftId  Int
+  secondShift   Shift @relation("shift_shift_2", fields: [secondShiftId], references: [id])
+  secondShiftId Int
+  delta         Float
+}
+
+model ShiftEmployee {
+  id          Int      @id @default(autoincrement())
+  shift       Shift    @relation(fields: [shiftId], references: [id])
+  shiftId     Int
+  employee    Employee @relation(fields: [employeeId], references: [id])
+  employeeId  Int
+  date        DateTime
+  isConfirmed Boolean  @default(false)
+}
+
+model ShiftEmployeeType {
+  id             Int          @id @default(autoincrement())
+  shift          Shift        @relation(fields: [shiftId], references: [id])
+  shiftId        Int
+  employeeType   EmployeeType @relation(fields: [employeeTypeId], references: [id])
+  employeeTypeId Int
+  capacity       Int
+  canBePresent   Boolean
+  requiredNumber Int
+}
+
+model Absence {
+  id         Int         @id @default(autoincrement())
+  employee   Employee    @relation(fields: [employeeId], references: [id])
+  employeeId Int
+  start      DateTime
+  end        DateTime
+  type       AbsenceType
+}
+
+enum AbsenceType {
+  SICK
+  VACATION
+  TRAINING
+}
+
+model Requirement {
+  id                  Int                   @id @default(autoincrement())
+  employee            Employee              @relation(fields: [employeeId], references: [id])
+  employeeId          Int
+  status              RequirementStatus
+  type                RequirementType
+  requirementEmployee RequirementEmployee[]
+  requirementShift    RequirementShift[]
+  requirementInterval RequirementInterval[]
+}
+
+model RequirementEmployee {
+  id          Int         @id
+  requirement Requirement @relation(fields: [id], references: [id])
+  employee    Employee    @relation(fields: [employeeId], references: [id])
+  employeeId  Int
+}
+
+model RequirementShift {
+  id          Int         @id
+  requirement Requirement @relation(fields: [id], references: [id])
+  shift       Shift       @relation(fields: [shiftId], references: [id])
+  shiftId     Int
+}
+
+model RequirementInterval {
+  id          Int         @id
+  requirement Requirement @relation(fields: [id], references: [id])
+  start       DateTime
+  end         DateTime
+}
+
+enum RequirementStatus {
+  WANT
+  AVOID
+}
+
+enum RequirementType {
+  TEMPORARY
+  GENERAL
+}
