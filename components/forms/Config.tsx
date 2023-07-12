@@ -1,8 +1,9 @@
 "use client";
-import { ConfigDataSchema } from "@/lib/validate/config";
+import { ConfigDataSchema, ConfigDataYupSchema } from "@/lib/validate/config";
 import { Form } from "../ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { z } from "zod";
 import FormFieldC from "../FormFieldC";
 import { Input } from "../ui/input";
@@ -33,14 +34,22 @@ export default function ConfigForm() {
     fetchData();
   }, []);
 
-  const form = useForm<z.infer<typeof ConfigDataSchema>>({
-    resolver: zodResolver(ConfigDataSchema),
+  const form = useForm({
+    resolver: yupResolver(ConfigDataYupSchema),
     defaultValues: {
       patientNumber: 0,
       bedsNumber: 0,
       maxHours: 0,
     },
   });
+  // const form = useForm<z.infer<typeof ConfigDataSchema>>({
+  //   resolver: zodResolver(ConfigDataSchema),
+  //   defaultValues: {
+  //     patientNumber: 0,
+  //     bedsNumber: 0,
+  //     maxHours: 0,
+  //   },
+  // });
   useEffect(() => {
     if (data !== null)
       form.reset({
@@ -50,9 +59,9 @@ export default function ConfigForm() {
       });
   }, [data]);
 
-  function onSubmit(formData: z.infer<typeof ConfigDataSchema>) {
+  function onSubmit(formData: any) {
     if (data !== null) {
-      fetch(`/api/config/${data.id}`, {
+      fetch(`/api/config/?id=${data.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -69,6 +78,25 @@ export default function ConfigForm() {
       });
     }
   }
+  // function onSubmit(formData: z.infer<typeof ConfigDataSchema>) {
+  //   if (data !== null) {
+  //     fetch(`/api/config/${data.id}`, {
+  //       method: "PUT",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(formData),
+  //     });
+  //   } else {
+  //     fetch(`/api/config`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(formData),
+  //     });
+  //   }
+  // }
   return (
     <>
       {isLoading && <div>Loading...</div>}

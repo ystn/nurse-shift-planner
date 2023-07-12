@@ -1,4 +1,5 @@
 import { z } from "zod";
+import * as Yup from "yup";
 
 export const ConfigDataSchema = z.object({
   patientNumber: z.number().int().positive(),
@@ -15,3 +16,9 @@ export function validateConfigData(data: any) {
 export function validatePartialConfigData(data: any) {
   return PartialConfigDataSchema.safeParse(data);
 }
+
+export const ConfigDataYupSchema = Yup.object({
+  patientNumber: Yup.number().integer().positive().required(),
+  bedsNumber: Yup.number().integer().positive().required(),
+  maxHours: Yup.number().positive().required(),
+});
