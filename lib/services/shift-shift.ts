@@ -6,7 +6,7 @@ import { CustomZodError } from "../validate/error";
 import { validateShiftShiftData } from "../validate/shift-shift";
 
 export type ShiftShiftData = {
-  secondShiftId: number;
+  shiftId: number;
   delta: number;
 };
 
@@ -14,7 +14,11 @@ export async function createShiftShift(
   firstShiftId: number,
   data: ShiftShiftData
 ) {
-  const validation = validateShiftShiftData({ ...data, firstShiftId });
+  const validation = validateShiftShiftData({
+    delta: data.delta,
+    secondShiftId: data.shiftId,
+    firstShiftId,
+  });
   if (!validation.success) throw new CustomZodError(validation.error);
   return await createShiftShiftDB({
     firstShift: { connect: { id: validation.data.firstShiftId } },
@@ -31,7 +35,7 @@ export async function createMultipleShiftShifts(
     const validation = validateShiftShiftData({
       firstShiftId: shiftId,
       delta: shift.delta,
-      secondShiftId: shift.id,
+      secondShiftId: shift.shiftId,
     });
     if (!validation.success) throw new CustomZodError(validation.error);
     return validation.data;

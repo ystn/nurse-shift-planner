@@ -2,9 +2,9 @@ import { z } from "zod";
 import * as Yup from "yup";
 
 export const ConfigDataSchema = z.object({
-  patientNumber: z.number().int().positive(),
-  bedsNumber: z.number().int().positive(),
-  maxHours: z.number().positive(),
+  patientNumber: z.number().int().nonnegative(),
+  bedsNumber: z.number().int().nonnegative(),
+  maxHours: z.number().nonnegative(),
 });
 
 export const PartialConfigDataSchema = ConfigDataSchema.partial();

@@ -7,6 +7,7 @@ export async function createMultipleShiftEmployeeTypes(
   employeeTypes: any[]
 ) {
   const shiftEmployeeTypes = employeeTypes.map((employeeType: any) => {
+    console.log(employeeType);
     const validationShiftEmployeeType = validateShiftEmployeeTypeData({
       ...employeeType,
       shiftId,

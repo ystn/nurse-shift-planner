@@ -3,9 +3,9 @@ import { z } from "zod";
 export const ShiftEmployeeTypeDataSchema = z.object({
   shiftId: z.number().int().positive(),
   employeeTypeId: z.number().int().positive(),
-  capacity: z.number().int().positive(),
+  capacity: z.number().int().nonnegative(),
   canBePresent: z.boolean(),
-  requiredNumber: z.number().int().positive(),
+  requiredNumber: z.number().int().nonnegative(),
 });
 
 export const PartialShiftEmployeeTypeDataSchema =

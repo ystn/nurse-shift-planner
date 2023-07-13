@@ -4,7 +4,7 @@ export const ShiftDataSchema = z.object({
   name: z.string(),
   start: z.coerce.date(),
   end: z.coerce.date(),
-  breaktime: z.number().positive(),
+  breaktime: z.number().nonnegative(),
   enabled: z.boolean().optional(),
 });
 
