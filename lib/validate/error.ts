@@ -9,3 +9,9 @@ export function handleValidationError(zodError: ZodError) {
 export function throwValidationError(zodError: ZodError) {
   throw new Error(fromZodError(zodError).toString());
 }
+
+export class CustomZodError extends Error {
+  constructor(error: ZodError) {
+    super(fromZodError(error).message);
+  }
+}

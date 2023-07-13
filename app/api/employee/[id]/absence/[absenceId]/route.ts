@@ -3,7 +3,7 @@ import {
   deleteAbsence,
   getAbsenceOrThrow,
   updateAbsence,
-} from "@/lib/services/absence";
+} from "@/lib/db/services/absence";
 import { AbsenceParamsType } from "@/lib/types";
 import { validateAbsenceData } from "@/lib/validate/absence";
 import { handleValidationError } from "@/lib/validate/error";

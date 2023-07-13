@@ -3,7 +3,7 @@ import {
   deleteEmployee,
   getEmployee,
   updateEmployee,
-} from "@/lib/services/employee";
+} from "@/lib/db/services/employee";
 import { ParamsType } from "@/lib/types";
 import { validateEmployeeData } from "@/lib/validate/employee";
 import { handleValidationError } from "@/lib/validate/error";

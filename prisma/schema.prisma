@@ -45,6 +45,7 @@ model Employee {
 
 model Shift {
   id                Int                 @id @default(autoincrement())
+  name              String
   start             DateTime
   end               DateTime
   breaktime         Float

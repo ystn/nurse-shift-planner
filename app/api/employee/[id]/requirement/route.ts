@@ -3,18 +3,21 @@ import {
   sendCreatedResponse,
   sendOkResponse,
 } from "@/lib/response";
-import { createRequirement, getRequirements } from "@/lib/services/requirement";
+import {
+  createRequirement,
+  getRequirements,
+} from "@/lib/db/services/requirement";
 import { ParamsType } from "@/lib/types";
 import { validateRequirementData } from "@/lib/validate/requirement";
 import { handleValidationError } from "@/lib/validate/error";
 import { validateId } from "@/lib/validate/id";
 import { NextRequest } from "next/server";
 import { validateRequirementEmployeeData } from "@/lib/validate/requirement-employee";
-import { createRequirementEmployee } from "@/lib/services/requirement-employee";
-import { createRequirementShift } from "@/lib/services/requirement-shift";
+import { createRequirementEmployee } from "@/lib/db/services/requirement-employee";
+import { createRequirementShift } from "@/lib/db/services/requirement-shift";
 import { validateRequirementShiftData } from "@/lib/validate/requirement-shift";
 import { validateRequirementIntervalData } from "@/lib/validate/requirement-interval";
-import { createRequirementInterval } from "@/lib/services/requirement-interval";
+import { createRequirementInterval } from "@/lib/db/services/requirement-interval";
 
 export async function GET(
   request: NextRequest,

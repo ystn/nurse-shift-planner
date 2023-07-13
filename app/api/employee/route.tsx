@@ -1,5 +1,5 @@
 import { handleErrorMessage, sendOkResponse } from "@/lib/response";
-import { createEmployee, getEmployees } from "@/lib/services/employee";
+import { createEmployee, getEmployees } from "@/lib/db/services/employee";
 import { validateEmployeeData } from "@/lib/validate/employee";
 import { handleValidationError } from "@/lib/validate/error";
 import { NextRequest } from "next/server";

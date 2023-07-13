@@ -3,7 +3,11 @@ import {
   sendCreatedResponse,
   sendOkResponse,
 } from "@/lib/response";
-import { createConfig, getConfigs, updateConfig } from "@/lib/services/config";
+import {
+  createConfig,
+  getConfigs,
+  updateConfig,
+} from "@/lib/db/services/config";
 import {
   validateConfigData,
   validatePartialConfigData,

@@ -3,7 +3,7 @@ import {
   sendCreatedResponse,
   sendOkResponse,
 } from "@/lib/response";
-import { createAbsence, getAbsences } from "@/lib/services/absence";
+import { createAbsence, getAbsences } from "@/lib/db/services/absence";
 import { ParamsType } from "@/lib/types";
 import { validateAbsenceData } from "@/lib/validate/absence";
 import { handleValidationError } from "@/lib/validate/error";

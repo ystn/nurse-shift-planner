@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const ShiftShiftDataSchema = z.object({
   firstShiftId: z.number().int().positive(),
-  // secondShiftId: z.number().int().positive(),
+  secondShiftId: z.number().int().positive(),
   delta: z.number(),
 });
 

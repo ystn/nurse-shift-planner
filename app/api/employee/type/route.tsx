@@ -2,7 +2,7 @@ import { handleErrorMessage, sendOkResponse } from "@/lib/response";
 import {
   createEmployeeType,
   getEmployeeTypes,
-} from "@/lib/services/employee-type";
+} from "@/lib/db/services/employee-type";
 import { validateEmployeeTypeData } from "@/lib/validate/employee-type";
 import { handleValidationError } from "@/lib/validate/error";
 import { NextRequest } from "next/server";

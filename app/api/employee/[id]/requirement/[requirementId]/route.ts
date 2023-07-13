@@ -3,7 +3,7 @@ import {
   deleteRequirement,
   getRequirementOrThrow,
   updateRequirement,
-} from "@/lib/services/requirement";
+} from "@/lib/db/services/requirement";
 import { RequirementParamsType } from "@/lib/types";
 import { handleValidationError } from "@/lib/validate/error";
 import { validateId } from "@/lib/validate/id";

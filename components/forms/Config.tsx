@@ -15,6 +15,7 @@ export default function ConfigForm() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [data, setData] = useState<Config | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isReset, setIsReset] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -42,21 +43,15 @@ export default function ConfigForm() {
       maxHours: 0,
     },
   });
-  // const form = useForm<z.infer<typeof ConfigDataSchema>>({
-  //   resolver: zodResolver(ConfigDataSchema),
-  //   defaultValues: {
-  //     patientNumber: 0,
-  //     bedsNumber: 0,
-  //     maxHours: 0,
-  //   },
-  // });
   useEffect(() => {
-    if (data !== null)
+    if (data !== null) {
       form.reset({
         patientNumber: data?.patientNumber ?? 0,
         bedsNumber: data?.bedsNumber ?? 0,
         maxHours: data?.maxHours ?? 0,
       });
+      setIsReset(true);
+    }
   }, [data]);
 
   function onSubmit(formData: any) {
@@ -78,30 +73,11 @@ export default function ConfigForm() {
       });
     }
   }
-  // function onSubmit(formData: z.infer<typeof ConfigDataSchema>) {
-  //   if (data !== null) {
-  //     fetch(`/api/config/${data.id}`, {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(formData),
-  //     });
-  //   } else {
-  //     fetch(`/api/config`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(formData),
-  //     });
-  //   }
-  // }
   return (
     <>
       {isLoading && <div>Loading...</div>}
       {error && <div>{error}</div>}
-      {data && (
+      {data && isReset && (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormFieldC
@@ -118,13 +94,7 @@ export default function ConfigForm() {
               control={form.control}
               label="Beds Number"
               description="Number of beds in the hospital"
-              Render={({ field }) => (
-                <Input
-                  {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
-                  type="number"
-                />
-              )}
+              Render={({ field }) => <Input {...field} type="number" />}
             />
             <FormFieldC
               name="maxHours"

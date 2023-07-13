@@ -1,4 +1,5 @@
 import { z } from "zod";
+import * as Yup from "yup";
 
 export const EmployeeTypeDataSchema = z.object({
   name: z.string().min(2).max(100),
@@ -13,3 +14,5 @@ export function validateEmployeeTypeData(data: any) {
 export function validatePartialEmployeeTypeData(data: any) {
   return PartialEmployeeTypeDataSchema.safeParse(data);
 }
+
+export const EmployeeTypeDataYupSchema = Yup.object({});

@@ -1,5 +1,5 @@
 import { handleErrorMessage, sendOkResponse } from "@/lib/response";
-import { createShift, getShift, updateShift } from "@/lib/services/shift";
+import { createShift, getShift, updateShift } from "@/lib/db/services/shift";
 import { ParamsType } from "@/lib/types";
 import { handleValidationError } from "@/lib/validate/error";
 import { validateId } from "@/lib/validate/id";

@@ -1,6 +1,7 @@
 import { handleErrorMessage, sendOkResponse } from "@/lib/response";
-import { createShift, getShifts } from "@/lib/services/shift";
-import { createMultipleShiftEmployeeTypes } from "@/lib/services/shift-employee-type";
+import { createShift, getShifts } from "@/lib/db/services/shift";
+import { createMultipleShiftEmployeeTypes } from "@/lib/db/services/shift-employee-type";
+import { createMultipleShiftShifts } from "@/lib/db/services/shift-shift";
 import { handleValidationError } from "@/lib/validate/error";
 import { validateShiftEmployeeTypeData } from "@/lib/validate/shfit-employee-type";
 import { validateShiftData } from "@/lib/validate/shift";
@@ -23,6 +24,7 @@ export async function POST(request: NextRequest) {
     if (!validation.success) return handleValidationError(validation.error);
     const data = await createShift(validation.data);
     createMultipleShiftEmployeeTypes(data.id, body.employeeTypes);
+    createMultipleShiftShifts(data.id, body.shifts);
 
     return sendOkResponse(data);
   } catch (e: any) {

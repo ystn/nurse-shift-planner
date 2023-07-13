@@ -9,7 +9,12 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
 import { EmployeeType } from "@prisma/client";
-import { EmployeeTypeDataSchema } from "@/lib/validate/employee-type";
+import {
+  EmployeeTypeDataSchema,
+  EmployeeTypeDataYupSchema,
+} from "@/lib/validate/employee-type";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { notFound } from "next/navigation";
 
 export type EmployeeTypeFormProps = {
   employeeTypeId?: number | null;
@@ -18,7 +23,7 @@ export type EmployeeTypeFormProps = {
 export default function EmployeeTypeForm({
   employeeTypeId = null,
 }: EmployeeTypeFormProps) {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(employeeTypeId !== null);
   const [data, setData] = useState<EmployeeType | null>(null);
   const [error, setError] = useState<any>(null);
 
@@ -30,6 +35,7 @@ export default function EmployeeTypeForm({
           throw new Error(response.statusText);
         }
         const json = await response.json();
+        if (json === null) notFound();
         setData(json);
       } catch (error) {
         setError(error);
@@ -40,8 +46,8 @@ export default function EmployeeTypeForm({
     if (employeeTypeId !== null) fetchData();
   }, []);
 
-  const form = useForm<z.infer<typeof EmployeeTypeDataSchema>>({
-    resolver: zodResolver(ConfigDataSchema),
+  const form = useForm({
+    resolver: yupResolver(EmployeeTypeDataYupSchema),
     defaultValues: {
       name: "",
     },
@@ -53,8 +59,8 @@ export default function EmployeeTypeForm({
       });
   }, [data]);
 
-  function onSubmit(formData: z.infer<typeof EmployeeTypeDataSchema>) {
-    console.log(data);
+  function onSubmit(formData: any) {
+    console.log(formData);
     if (data !== null) {
       fetch(`/api/employee/type/${data.id}`, {
         method: "PUT",
@@ -77,7 +83,7 @@ export default function EmployeeTypeForm({
     <>
       {isLoading && <div>Loading...</div>}
       {error && <div>{error.message}</div>}
-      {data && (
+      {(data || employeeTypeId === null) && (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormFieldC

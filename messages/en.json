@@ -1,0 +1,23 @@
+{
+    "Home": {
+
+    },
+    "Config": {
+        "patientsNumber": "Patients Number",
+        "bedsNumber": "Beds Number",
+        "maxHours": "Maximum Working Hours"
+    },
+    "EmployeeType": {
+        "name": "Name"
+    },
+    "Employee": {
+        "name": "Name",
+        "participation": "Participation"
+    },
+    "Shift": {
+        "name": "Name",
+        "start": "Start Time",
+        "end": "End Time",
+        "breaktime": "Number of Break Hours"
+    }
+}
