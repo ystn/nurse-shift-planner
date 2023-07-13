@@ -23,10 +23,17 @@ export async function POST(request: NextRequest) {
     const validation = validateShiftData(body);
     if (!validation.success) return handleValidationError(validation.error);
     const data = await createShift(validation.data);
-    createMultipleShiftEmployeeTypes(data.id, body.employeeTypes);
-    createMultipleShiftShifts(data.id, body.shifts);
+    let employeeTypes = null,
+      shifts = null;
+    if (body.employeeTypes)
+      employeeTypes = await createMultipleShiftEmployeeTypes(
+        data.id,
+        body.employeeTypes
+      );
+    if (body.shifts)
+      shifts = await createMultipleShiftShifts(data.id, body.shifts);
 
-    return sendOkResponse(data);
+    return sendOkResponse({ ...data, employeeTypes, shifts });
   } catch (e: any) {
     return handleErrorMessage(e.message);
   }
