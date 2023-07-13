@@ -40,17 +40,7 @@ export async function deleteShiftEmployeeType(
 }
 
 export async function createMultipleShiftEmployeeTypes(
-  shiftId: number,
-  employeeTypes: any[]
+  data: Prisma.ShiftEmployeeTypeCreateManyInput[]
 ) {
-  const shiftEmployeeTypes = employeeTypes.map((employeeType: any) => {
-    const validationShiftEmployeeType = validateShiftEmployeeTypeData({
-      ...employeeType,
-      shiftId,
-    });
-    if (!validationShiftEmployeeType.success)
-      throw new Error(fromZodError(validationShiftEmployeeType.error).message);
-    return validationShiftEmployeeType.data;
-  });
-  return prisma.shiftEmployeeType.createMany({ data: shiftEmployeeTypes });
+  return prisma.shiftEmployeeType.createMany({ data });
 }

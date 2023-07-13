@@ -1,7 +1,7 @@
 import { handleErrorMessage, sendOkResponse } from "@/lib/response";
 import { createShift, getShifts } from "@/lib/db/services/shift";
-import { createMultipleShiftEmployeeTypes } from "@/lib/db/services/shift-employee-type";
-import { createMultipleShiftShifts } from "@/lib/db/services/shift-shift";
+import { createMultipleShiftEmployeeTypes } from "@/lib/services/shift-employee-type";
+import { createMultipleShiftShifts } from "@/lib/services/shift-shift";
 import { handleValidationError } from "@/lib/validate/error";
 import { validateShiftEmployeeTypeData } from "@/lib/validate/shfit-employee-type";
 import { validateShiftData } from "@/lib/validate/shift";
